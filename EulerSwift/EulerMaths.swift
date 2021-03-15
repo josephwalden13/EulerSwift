@@ -64,14 +64,24 @@ class BigNumber {
         postadd(number: right)
         return right
     }
+    
+    public static func *(left:BigNumber, right:Int) -> BigNumber {
+        for i in 0 ..< left.number.count {
+            left.number[i] *= right
+        }
+        postadd(number: left)
+        return left
+    }
+    
     public static func ==(left:BigNumber, right:BigNumber) -> Bool {
         return left.number == right.number
     }
     public static func test() -> Bool {
         do {
-            var i = try BigNumber(number: "100")
-            i = try i + BigNumber(number: "50")
-            return try i == BigNumber(number: "150")
+            let addition_test = try BigNumber(number: "100") + BigNumber(number: "50")
+            let multiplication_test = try BigNumber(number: "50") * 5
+            return try addition_test == BigNumber(number: "150") &&
+            multiplication_test == BigNumber(number: "250")
         }
         catch {
             return false
@@ -181,5 +191,35 @@ class EulerMaths {
             numbers.append(b)
         }
         return numbers
+    }
+    static func collatz(start:Int) -> [Int] {
+        var sequence:[Int] = [start]
+        var current = start
+        while current != 1 {
+            if current & 1 == 0 {
+                current /= 2
+            }
+            else {
+                current *= 3
+                current += 1
+            }
+            sequence.append(current)
+        }
+        return sequence
+    }
+    static func collatzLength(start:Int) -> Int {
+        var length:Int = 1
+        var current = start
+        while current != 1 {
+            if current & 1 == 0 {
+                current /= 2
+            }
+            else {
+                current *= 3
+                current += 1
+            }
+            length += 1
+        }
+        return length
     }
 }
