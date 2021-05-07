@@ -223,3 +223,69 @@ class EulerMaths {
         return length
     }
 }
+
+extension Int {
+
+    private func unit_English() -> String {
+        ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"][self]
+    }
+    private func teen_English() -> String {
+        var digit = self % 10
+        if digit < 6 {
+            return ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen"][digit]
+        }
+        else if digit == 8 {
+            return "Eighteen"
+        }
+        else {
+            return digit.English + "teen"
+        }
+    }
+    private func ten_English() -> String {
+        var ten = Int(floor(Double(self / 10)))
+        var unit = self % 10
+        var eng: String
+        if ten <= 5 {
+            eng = ["Twenty", "Thirty", "Forty", "Fifty"][ten - 2]
+        }
+        else if ten == 8 {
+            eng = "Eighty"
+        }
+        else {
+            eng = ten.English + "ty"
+        }
+        if unit > 0 {
+            return eng + unit.English
+        }
+        else {
+            return eng
+        }
+    }
+    private func hundred_English() -> String {
+        var hundred = Int(floor(Double(self / 100)))
+        var rest = self % 100
+        if rest == 0 {
+            return hundred.English + "hundred"
+        }
+        return hundred.English + "hundredand" + rest.English
+    }
+
+    var English:String {
+        if self < 10 {
+            return unit_English()
+        }
+        else if self < 20 {
+            return teen_English()
+        }
+        else if self < 100 {
+            return ten_English()
+        }
+        else if self < 1000 {
+            return hundred_English()
+        }
+        else if self == 1000 {
+            return "Onethousand"
+        }
+        return ""
+    }
+}
